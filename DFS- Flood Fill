@@ -1,0 +1,35 @@
+/* LC #733 */
+//Depth First Search Approach
+//Time Complexity: O(n). Space Complexity: O(n)
+
+class Solution
+{
+    private int start_color = -1;
+    
+    public int [][] floodFill (int [][] image, int sr, int sc, int newColor)
+    {
+       
+        if(this.start_color == -1)
+            this.start_color = image[sr][sc];
+        
+        
+        //base cases: either we are out of bounds, at a value which is already the new color, or a pixel of a different start color
+        
+        if (sr < 0 || sr > image.length-1 || sc < 0 || sc > image[0].length-1 || image[sr][sc] != start_color || image[sr][sc] == newColor ) 
+        {
+            return image; 
+        }
+        
+        image[sr][sc] = newColor;
+        
+        image = floodFill(image, sr+1, sc, newColor);
+    
+        image = floodFill(image, sr-1, sc, newColor);
+        
+        image = floodFill(image, sr, sc+1, newColor);
+        
+        image = floodFill(image, sr, sc-1, newColor);
+        
+        return image; 
+    }
+}
