@@ -1,0 +1,54 @@
+/* LC Medium #419
+"Given an m x n matrix board where each cell is a battleship 'X' or empty '.', return the number of the battleships on board.
+Battleships can only be placed horizontally or vertically on board. In other words, they can only be made of the shape 1 x k (1 row, k columns) or k x 1 (k rows, 1 column), 
+where k can be of any size. At least one horizontal or vertical cell separates between two battleships (i.e., there are no adjacent battleships)."
+
+*/
+
+
+class Solution {
+    public int countBattleships (char[][] board) {
+        int battleShipCount = 0; 
+        for (int r = 0; r < board.length; r++)
+        {
+            for (int c = 0; c < board[r].length; c++)
+            {
+                if (board[r][c] == 'X')
+                {
+                    sink(board, r, c);
+                    battleShipCount++; 
+                }
+            }
+        }
+        return battleShipCount;
+    
+    }
+    
+    
+    //helper method sink (marks the elements alr used in a battleship)
+    public void sink (char[][] board, int r, int c)
+    {
+        
+        board [r][c] = '.';
+        if (r > 0 && board[r-1][c] == 'X')
+        {
+            sink (board, r-1, c); 
+        }
+        if (r < board.length-1 && board[r+1][c] == 'X')
+        {
+            sink(board, r+1, c); 
+        }
+        if (c>0 && board[r][c-1] == 'X')
+        {
+            sink(board, r, c-1); 
+        }
+        if (c < board[0].length-1 && board[r][c+1] == 'X')
+        {
+            sink (board, r, c+1); 
+        }
+        //base case --> none of the if conditions are met. elements in direct neighboring 4directionally are already sunk or are not X's altogether
+        
+    }
+    
+    
+}
