@@ -1,0 +1,83 @@
+//LC Medium #904
+
+
+/***************************** IMPROVISED SLIDING WINDOW SOLUTION ****************************/
+class Solution
+{
+    public int totalFruit (int [] fruit)
+    {
+        int left = 0;
+        int right = 0; 
+        int max = 0;
+        HashMap <Integer, Integer> hm = new HashMap <Integer, Integer>();
+
+        while (right  < fruit.length)
+        {
+            if (!hm.containsKey(fruit[right]))
+            {
+                hm.put(fruit[right], 1);
+            }
+            else
+            {
+                hm.put(fruit[right], hm.get(fruit[right])+1);
+            }
+
+            while (hm.size() >2)
+            {
+                if (hm.get(fruit[left]) == 1)
+                {
+                    hm.remove(fruit[left]);
+                }
+                else
+                {
+                    hm.put(fruit[left], hm.get(fruit[left])-1);
+                }
+                left++;
+            }
+
+            if (right-left +1 > max)
+            {
+                max = right-left+1;
+            }
+            right++; 
+        }
+        return max;
+    }
+}
+
+/***************************** BRUTE FORCE SOLUTION ****************************/
+class Solution 
+{
+    public int totalFruit (int[] fruits )
+    {
+        int allTimeMax = 1; //len of fruits is >= 1 
+        
+        for (int left = 0; left < fruits.length-1; left++)
+        {
+            int right = left; 
+            int winMax = 1; 
+            HashMap <Integer, Integer> hm = new HashMap (); //key=fruit val, val= freq
+            hm.put (fruits[left], 1);
+            while (right < fruits.length -1  && (hm.containsKey(fruits[right+1]) || hm.size() < 2))
+            {
+                winMax++;
+                right++;
+                
+                if (!hm.containsKey(fruits[right]))
+                {
+                    hm.put(fruits[right], 1);
+                }
+                else
+                {
+                    hm.put(fruits[right], hm.get(fruits[right])+1);
+                }
+            }
+            
+            if (winMax>allTimeMax)
+            {
+                allTimeMax = winMax;
+            }
+        }
+        return allTimeMax;
+    }
+}
